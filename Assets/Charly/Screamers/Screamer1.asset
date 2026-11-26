@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2123801e700fa0e4ebe34fa85ec485cb, type: 3}
+  m_Name: Screamer1
+  m_EditorClassIdentifier: Assembly-CSharp::ScreamerData
+  screamerID: "1"
+  screamerPrefab: {fileID: 7760542786987447662, guid: 9a6580b37722a584c924de3d8bde982a, type: 3}
+  screamAudio: {fileID: 8300000, guid: 8920d4bdf46d13e409de87217acd735b, type: 3}
+  duration: 2
+  cooldown: 3

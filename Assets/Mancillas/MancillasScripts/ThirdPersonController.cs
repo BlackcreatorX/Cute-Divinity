@@ -91,9 +91,26 @@ public class ThirdPersonController : MonoBehaviour
 
     private void Update()
     {
+        HandleScreamerInput();
         ReadStates();
         HandleMovement();
         CheckForInteractable();
+    }
+
+    private void HandleScreamerInput()
+    {
+        if (Keyboard.current == null || !Keyboard.current.digit1Key.wasPressedThisFrame)
+        {
+            return;
+        }
+
+        if (ScreamerManager.Instance == null)
+        {
+            Debug.LogWarning("Cannot play screamer '1': no ScreamerManager is active.");
+            return;
+        }
+
+        ScreamerManager.Instance.PlayScreamer("1");
     }
 
     private void LateUpdate()
@@ -182,9 +199,19 @@ public class ThirdPersonController : MonoBehaviour
         if (playerCamera == null) return;
 
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, interactDistance + Mathf.Abs(currentCamOffset.z), interactLayer))
+        int interactionMask = interactLayer.value == 0
+            ? Physics.DefaultRaycastLayers
+            : interactLayer.value;
+
+        if (Physics.Raycast(
+            ray,
+            out RaycastHit hit,
+            interactDistance + Mathf.Abs(currentCamOffset.z),
+            interactionMask
+        ))
         {
-            if (hit.collider.TryGetComponent(out IInteractable interactable))
+            IInteractable interactable = hit.collider.GetComponentInParent<IInteractable>();
+            if (interactable != null)
             {
                 CurrentInteractable = interactable;
                 return;

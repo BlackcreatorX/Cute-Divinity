@@ -1,23 +1,50 @@
-
+using UnityEngine.InputSystem;
 using UnityEngine;
 
-public class ScreamerTest : MonoBehaviour
+public class ScreamerTrigger : MonoBehaviour
 {
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Keyboard.current == null)
         {
-            ScreamerManager.Instance.PlayScreamer("1");//linea para invocar un screamer con ID "1" al presionar la tecla 1
+            return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Keyboard.current.digit1Key.wasPressedThisFrame)
         {
-            ScreamerManager.Instance.PlayScreamer("2");
+            PlayScreamer("1");
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Keyboard.current.digit2Key.wasPressedThisFrame)
         {
-            ScreamerManager.Instance.PlayScreamer("3");
+            PlayScreamer("2");
         }
+
+        if (Keyboard.current.digit3Key.wasPressedThisFrame)
+        {
+            PlayScreamer("3");
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            PlayScreamer("1");
+        }
+    }
+
+    private void PlayScreamer(string screamerID)
+    {
+        if (ScreamerManager.Instance == null)
+        {
+            Debug.LogWarning(
+                $"Cannot play screamer '{screamerID}': no ScreamerManager is active.",
+                this
+            );
+            return;
+        }
+
+        ScreamerManager.Instance.PlayScreamer(screamerID);
     }
 }
