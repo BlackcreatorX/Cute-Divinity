@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreamerManager
   screamers:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 1747ca69d26090f43b5f3e76e3ce6833, type: 2}
 --- !u!4 &1542469909
 Transform:
   m_ObjectHideFlags: 0

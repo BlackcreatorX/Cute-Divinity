@@ -18,7 +18,7 @@ public class ScreamerManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
+            Destroy(this);
             return;
         }
 
@@ -41,6 +41,14 @@ public class ScreamerManager : MonoBehaviour
                 continue;
             }
 
+            if (screamer.screamerPrefab == null || screamer.screamAudio == null)
+            {
+                Debug.LogWarning(
+                    $"Screamer '{screamer.screamerID}' is missing its prefab or audio."
+                );
+                continue;
+            }
+
             if (!screamerDatabase.TryAdd(
                 screamer.screamerID, screamer))
             {
@@ -53,6 +61,12 @@ public class ScreamerManager : MonoBehaviour
 
     public void PlayScreamer(string screamerID)
     {
+        if (string.IsNullOrWhiteSpace(screamerID))
+        {
+            Debug.LogWarning("Cannot play a screamer without an ID.");
+            return;
+        }
+
         if (isPlaying)
         {
             Debug.Log("A screamer is already playing.");
@@ -91,5 +105,13 @@ public class ScreamerManager : MonoBehaviour
         yield return new WaitForSeconds(data.cooldown);
 
         isPlaying = false;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }
